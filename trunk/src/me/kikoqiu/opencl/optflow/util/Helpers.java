@@ -26,7 +26,7 @@ import static org.jocl.CL.clEnqueueReadBuffer;
 
 import java.io.IOException;
 
-import me.kikoqiu.opencl.filters.ImageFilterBase;
+import me.kikoqiu.opencl.filters.ImageFilter;
 import me.kikoqiu.opencl.image.IImage2d;
 
 import org.jocl.Pointer;
@@ -37,7 +37,7 @@ import org.jocl.utils.Kernels;
 import org.jocl.utils.Mems;
 
 public class Helpers extends me.kikoqiu.opencl.CLBase {
-	ImageFilterBase clear,copy;
+	ImageFilter clear,copy;
 	cl_kernel _copy2array;
 	private cl_kernel _adjust;
 	
@@ -45,7 +45,7 @@ public class Helpers extends me.kikoqiu.opencl.CLBase {
 		if(clear!=null){
 			return;
 		}
-		clear=new ImageFilterBase("data/helpers.c","clear");
+		clear=new ImageFilter("data/helpers.c","clear");
 		copy=new me.kikoqiu.opencl.filters.CopyFilter();
 		_copy2array=Kernels.createFromFile(context, "data/helpers.c", "copy2array", "-cl-enable-mad");
 		_adjust=Kernels.createFromFile(context, "data/helpers.c", "adjust", "-cl-enable-mad");		
