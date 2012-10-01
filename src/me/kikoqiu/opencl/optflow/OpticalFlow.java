@@ -35,18 +35,12 @@ import me.kikoqiu.opencl.optflow.util.Profile;
 import me.kikoqiu.opencl.optflow.util.ScaleFilter;
 
 public class OpticalFlow {
-
-
-	/**
-	 * Create the application.
-	 */
+	/***/
 	public OpticalFlow() {
 		initialize();
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
+	/***/
 	private void initialize() {
 		try {
 			preprocess=new ImageFilter("data/optflow.c", "preprocess");
@@ -170,9 +164,7 @@ public class OpticalFlow {
 		return ret;
 	}
 	
-	/** 
-     *
-     *  */ 
+	/***/ 
       public   void  drawArrow(Graphics g,  int  x1,  int  y1,  int  x2,  int  y2)  {
 
          double  H  =   2 ;  // arrow length  
@@ -208,9 +200,7 @@ public class OpticalFlow {
 
     } 
     
-     /** 
-     *取得箭头的绘画范围
-      */ 
+     /***/ 
  
      public   double [] rotateVec( int  px,  int  py,  double  ang,  boolean  isChLen,
              double  newLen)  {
