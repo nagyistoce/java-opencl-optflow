@@ -24,9 +24,9 @@ package me.kikoqiu.opencl.optflow.util;
 
 import java.io.IOException;
 
-import me.kikoqiu.opencl.filters.ImageFilterBase;
+import me.kikoqiu.opencl.filters.ImageFilter;
 
-public class LumiFilter extends ImageFilterBase{
+public class LumiFilter extends ImageFilter{
 
 	public LumiFilter() throws IOException{		
 		super("data/optflow.c", "filter");

@@ -26,7 +26,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-import me.kikoqiu.opencl.filters.ImageFilterBase;
+import me.kikoqiu.opencl.filters.ImageFilter;
 import me.kikoqiu.opencl.image.IImage2d;
 import me.kikoqiu.opencl.image.ImageRGBA;
 import me.kikoqiu.opencl.image.ImageRGBA_SNORM_INT16;
@@ -49,9 +49,9 @@ public class OpticalFlow {
 	 */
 	private void initialize() {
 		try {
-			preprocess=new ImageFilterBase("data/optflow.c", "preprocess");
-			solve=new ImageFilterBase("data/optflow.c","solve");
-			solve_k=new ImageFilterBase("data/optflow.c","solve_k");
+			preprocess=new ImageFilter("data/optflow.c", "preprocess");
+			solve=new ImageFilter("data/optflow.c","solve");
+			solve_k=new ImageFilter("data/optflow.c","solve_k");
 			sfPrev=new ScaleFilter();
 			sfNow=new ScaleFilter();
 		} catch (IOException e) {
@@ -66,8 +66,8 @@ public class OpticalFlow {
 		sfNow.dispose();
 	}
 	
-	ImageFilterBase preprocess;	
-	ImageFilterBase solve,solve_k;
+	ImageFilter preprocess;	
+	ImageFilter solve,solve_k;
 	IImage2d inputPrev;
 	ScaleFilter sfPrev,sfNow;
 	private int iterateCount=0;

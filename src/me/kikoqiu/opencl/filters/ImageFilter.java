@@ -24,18 +24,78 @@ package me.kikoqiu.opencl.filters;
 
 import java.io.IOException;
 
+import me.kikoqiu.opencl.CLBase;
+import me.kikoqiu.opencl.image.IImage2d;
+
+import org.jocl.*;
 import org.jocl.utils.Kernels;
 
-public class ImageFilter extends ImageFilterBase{
+public class ImageFilter extends CLBase{
+	cl_kernel kernel;
 	
 	public ImageFilter(String file,String kernelName) throws IOException{		
-		super(file,kernelName);
+		kernel=Kernels.createFromFile(context, file, kernelName, "-cl-mad-enable");
+	}
+	
+	public void filter(IImage2d output){		
+		Kernels.setArgs(kernel, output.getBuffer());
+		exec(kernel,output.getWidth(),output.getHeight());		
 	}	
+	
+	public void filter(IImage2d input,IImage2d output){		
+		Kernels.setArgs(kernel, input.getBuffer(), output.getBuffer());
+		exec(kernel,output.getWidth(),output.getHeight());		
+	}	
+	
+	public void filter(IImage2d input1,IImage2d input2,org.jocl.cl_mem input3,IImage2d output){
+		Kernels.setArgs(kernel, input1.getBuffer(),input2.getBuffer(), input3,output.getBuffer());
+		exec(kernel,output.getWidth(),output.getHeight());		
+	}	
+	
 	
 	public void dispose(){
 		super.dispose();
 		Kernels.release(kernel);
 		kernel=null;
-	}	
+	}
+
+	public void filter(IImage2d input1, IImage2d input2, IImage2d input3,
+			IImage2d output) {
+		Kernels.setArgs(kernel, input1.getBuffer(),input2.getBuffer(), input3.getBuffer(), output.getBuffer());
+		exec(kernel,output.getWidth(),output.getHeight());				
+	}
+	
+	public void filter(Object ... args)
+    {
+		IImage2d output=(IImage2d) args[args.length-1];
+
+		Object[] args1=new Object[args.length];
+		int p=0;
+		for(Object o:args){
+			if(o instanceof IImage2d){
+				args1[p++]=((IImage2d) o).getBuffer();				
+			}else {
+				args1[p++]=o;
+			}
+		}
+		
+        Kernels.setArgs(kernel, args1);
+        exec(kernel,output.getWidth(),output.getHeight());			
+    }
+	
+	public void filter(int w,int h,Object ... args)
+    {
+		Object[] args1=new Object[args.length];
+		int p=0;
+		for(Object o:args){
+			if(o instanceof IImage2d){
+				args1[p++]=((IImage2d) o).getBuffer();				
+			}else {
+				args1[p++]=o;
+			}
+		}
+        Kernels.setArgs(kernel, args1);
+        exec(kernel,w,h);			
+    }
 	
 }

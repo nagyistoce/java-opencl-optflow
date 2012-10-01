@@ -26,7 +26,7 @@ import java.io.IOException;
 
 import org.jocl.utils.Kernels;
 
-public class CopyFilter extends ImageFilterBase{
+public class CopyFilter extends ImageFilter{
 	
 	public CopyFilter() throws IOException{		
 		super("data/helpers.c","copy");
